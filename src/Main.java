@@ -10,7 +10,7 @@ public class Main {
 
 
         System.out.println("Loading data...");
-        System.out.println("Data was successfuly loaded.");
+        System.out.println("Data was successfuly loaded.\n");
 
         MainView mainView = new MainView();
 
@@ -23,7 +23,11 @@ public class Main {
     }
 
     private static void printLogo() {
-        System.out.println("Logo");
-        System.out.println("Welcome to simple LSRPG");
+        System.out.println("   ____ _               __       __    ____ ___   ___   _____");
+        System.out.println("  / __/(_)__ _   ___   / /___   / /   / __// _ \\ / _ \\ / ___/");
+        System.out.println(" _\\ \\ / //  ' \\ / _ \\ / // -_) / /__ _\\ \\ / , _// ___// (_ /");
+        System.out.println("/___//_//_/_/_// .__//_/ \\__/ /____//___//_/|_|/_/    \\___/");
+        System.out.println("              /_/\n");
+        System.out.println("Welcome to simple LSRPG\n");
     }
 }

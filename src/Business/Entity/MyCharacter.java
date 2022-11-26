@@ -1,6 +1,6 @@
 package Business.Entity;
 
-public class Character {
+public class MyCharacter {
 
     String name;
     String player;
@@ -10,7 +10,7 @@ public class Character {
     int spirit;
     String type;
 
-    public Character(String name, String player, int experience, int body, int mind, int spirit, String type) {
+    public MyCharacter(String name, String player, int experience, int body, int mind, int spirit, String type) {
         this.name = name;
         this.player = player;
         this.experience = experience;
@@ -20,7 +20,7 @@ public class Character {
         this.type = type;
     }
 
-    public Character() {
+    public MyCharacter() {
     }
 
     public String getName() {

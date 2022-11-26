@@ -23,15 +23,10 @@ public class MenuController {
 
             switch (option){
                 case 1:
-                    mainView.printLine("Tavern keeper: “Oh, so you are new to this land.”");
-                    if (characterManager.createCharacter()){
-                        System.out.println("character created okey");
-                    } else {
-                        System.out.println("problems creating character");
-                    }
+                    characterManager.createCharacter();
                     break;
                 case 2:
-                    System.out.println("list characters");
+                    characterManager.listCharacters();
                     break;
                 case 3:
                     System.out.println("create adventure");
