@@ -1,6 +1,8 @@
 package Business.Manager;
 
 import Business.Entity.MyCharacter;
+import Persistance.DAO.CharacterDAO;
+import Persistance.JSONDAO.JSONCharacterDAO;
 import Presentation.MainView;
 
 import java.util.ArrayList;
@@ -9,11 +11,16 @@ import java.util.Random;
 public class CharacterManager {
 
     MainView mainView;
+    CharacterDAO characterDAO;
     int diceOne, diceTwo, diceSum;
 
-    public CharacterManager(MainView mainView) {
+    public CharacterManager(MainView mainView, CharacterDAO characterDAO) {
         this.mainView = mainView;
+        this.characterDAO = characterDAO;
+    }
 
+    public boolean createJson(MyCharacter myCharacter){
+        return CharacterDAO.createJson(myCharacter);
     }
 
     public void createCharacter(){
@@ -54,9 +61,11 @@ public class CharacterManager {
 
         mainView.printLine("\nThe new character Finrod Felagund has been created.\n");
 
+        createJson(myCharacter);
         //TODO: AÑADIR A LA BASE DE DATOS MEDIANTE EL DAO
 
     }
+
 
     private int setStatByDiceNumber(int i) {
         if (i == 2){

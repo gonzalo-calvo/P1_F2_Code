@@ -1,4 +1,5 @@
 import Business.Manager.CharacterManager;
+import Persistance.JSONDAO.JSONCharacterDAO;
 import Presentation.MainView;
 import Presentation.MenuController;
 
@@ -14,7 +15,8 @@ public class Main {
 
         MainView mainView = new MainView();
 
-        CharacterManager characterManager = new CharacterManager(mainView);
+        CharacterManager characterManager = new CharacterManager(mainView, );
+
 
         MenuController menuController = new MenuController(mainView, characterManager);
         menuController.start();
