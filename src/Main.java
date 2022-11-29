@@ -1,4 +1,5 @@
 import Business.Manager.CharacterManager;
+import Persistance.DAO.CharacterDAO;
 import Persistance.JSONDAO.JSONCharacterDAO;
 import Presentation.MainView;
 import Presentation.MenuController;
@@ -14,8 +15,9 @@ public class Main {
         System.out.println("Data was successfuly loaded.\n");
 
         MainView mainView = new MainView();
+        CharacterDAO characterDAO = new JSONCharacterDAO();
 
-        CharacterManager characterManager = new CharacterManager(mainView, );
+        CharacterManager characterManager = new CharacterManager(mainView, characterDAO);
 
 
         MenuController menuController = new MenuController(mainView, characterManager);

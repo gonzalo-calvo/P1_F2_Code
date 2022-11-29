@@ -19,9 +19,9 @@ public class CharacterManager {
         this.characterDAO = characterDAO;
     }
 
-    public boolean createJson(MyCharacter myCharacter){
+    /*public boolean createJson(MyCharacter myCharacter){
         return CharacterDAO.createJson(myCharacter);
-    }
+    }*/
 
     public void createCharacter(){
         MyCharacter myCharacter = new MyCharacter();
@@ -61,7 +61,11 @@ public class CharacterManager {
 
         mainView.printLine("\nThe new character Finrod Felagund has been created.\n");
 
-        createJson(myCharacter);
+        if (characterDAO.createJson(myCharacter)){
+            System.out.println("character created correctly");
+        } else {
+            System.out.println("Error creating character");
+        }
         //TODO: AÑADIR A LA BASE DE DATOS MEDIANTE EL DAO
 
     }
