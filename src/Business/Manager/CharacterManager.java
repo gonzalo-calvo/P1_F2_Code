@@ -19,10 +19,6 @@ public class CharacterManager {
         this.characterDAO = characterDAO;
     }
 
-    /*public boolean createJson(MyCharacter myCharacter){
-        return CharacterDAO.createJson(myCharacter);
-    }*/
-
     public void createCharacter(){
         MyCharacter myCharacter = new MyCharacter();
         mainView.printLine("Tavern keeper: “Oh, so you are new to this land.”");
@@ -63,10 +59,10 @@ public class CharacterManager {
 
         if (characterDAO.createJson(myCharacter)){
             System.out.println("character created correctly");
+
         } else {
             System.out.println("Error creating character");
         }
-        //TODO: AÑADIR A LA BASE DE DATOS MEDIANTE EL DAO
 
     }
 
@@ -98,7 +94,9 @@ public class CharacterManager {
         mainView.printLine("“Who piques your interest?”\n");
         mainView.printLineWithNoCarrilReturn("-> Enter the name of the Player to filter: ");
         String name = mainView.scanLine();
-        //TODO: PRIMERO DE TODO TENDREMOS QUE PEDIR A LA BASE DE DATOS POR EL ARRAY DE CHARACTERS PARA PODER PRINTARLOS SEGUN NOMBRE OBTENIDO ANTERIORMENTE
+
+        characterDAO.readJson();//TODO: AÑADIR FILTRO POR NOMBRE PARA QUE NO SE MUESTRE EL ARRAY ENTERO
+
         ArrayList<MyCharacter> myCharactersList = new ArrayList<>();
 
         //aqui printar solo los characters que tengan el mismo nombre, falta pulir pq lo de debajo no esta bien

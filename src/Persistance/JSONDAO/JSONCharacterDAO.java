@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class JSONCharacterDAO implements CharacterDAO {
@@ -49,6 +50,19 @@ public class JSONCharacterDAO implements CharacterDAO {
             characters.add(myCharacter);
             String json = gson.toJson(characters);
             Files.write(path, json.getBytes());
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean readJson() {
+        try {
+            Gson gson = new Gson();
+            String text = Files.readString(path);
+            List<MyCharacter> characters = gson.fromJson(text, ArrayList.class);
+            System.out.println(characters);
         } catch (IOException e) {
             return false;
         }
