@@ -5,6 +5,7 @@ import Persistance.DAO.CharacterDAO;
 import Persistance.JSONDAO.JSONCharacterDAO;
 import Presentation.MainView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,7 +20,7 @@ public class CharacterManager {
         this.characterDAO = characterDAO;
     }
 
-    public void createCharacter(){
+    public void createCharacter() throws IOException {
         MyCharacter myCharacter = new MyCharacter();
         mainView.printLine("Tavern keeper: “Oh, so you are new to this land.”");
 
@@ -59,6 +60,7 @@ public class CharacterManager {
 
         if (characterDAO.createJson(myCharacter)){
             System.out.println("character created correctly");
+            characterDAO.readCharactersFromJson();//TODO: (quitar)PRUEBA PARA VER QUE MOSTRABA EL ARRAY DE PERSONAJES
 
         } else {
             System.out.println("Error creating character");
@@ -87,17 +89,18 @@ public class CharacterManager {
     }
 
 
-    public void listCharacters() {
+    public void listCharacters() throws IOException {
         int option;
 
         mainView.printLine("\nTavern keeper: “Lads! They want to see you!”");
         mainView.printLine("“Who piques your interest?”\n");
         mainView.printLineWithNoCarrilReturn("-> Enter the name of the Player to filter: ");
+
         String name = mainView.scanLine();
 
-        characterDAO.readJson();//TODO: AÑADIR FILTRO POR NOMBRE PARA QUE NO SE MUESTRE EL ARRAY ENTERO
+        ArrayList<MyCharacter> myCharactersList = characterDAO.readCharactersFromJson();
 
-        ArrayList<MyCharacter> myCharactersList = new ArrayList<>();
+
 
         //aqui printar solo los characters que tengan el mismo nombre, falta pulir pq lo de debajo no esta bien
         mainView.printLine("\nYou watch as some adventurers get up from their chairs and approach you.\n");

@@ -2,6 +2,8 @@ package Presentation;
 
 import Business.Manager.CharacterManager;
 
+import java.io.IOException;
+
 public class MenuController {
 
     MainView mainView;
@@ -13,7 +15,7 @@ public class MenuController {
         this.characterManager = characterManager;
     }
 
-    public void start(){
+    public void start() throws IOException {
         int option = 0;
         System.out.println("The tavern keeper looks at you and says:");
         printMenu();

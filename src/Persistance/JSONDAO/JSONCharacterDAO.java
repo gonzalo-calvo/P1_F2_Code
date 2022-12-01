@@ -9,12 +9,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class JSONCharacterDAO implements CharacterDAO {
     private static String route = "files/character.json";
     private static Path path = Path.of(route);
+
+    Gson gson= new Gson();
 
     public JSONCharacterDAO(){}
 
@@ -44,7 +45,6 @@ public class JSONCharacterDAO implements CharacterDAO {
     public boolean createJson(MyCharacter myCharacter) {
         try {
             createFile(new File(route));
-            Gson gson= new Gson();
             String text= Files.readString(path);
             List<MyCharacter> characters=gson.fromJson(text,ArrayList.class);
             characters.add(myCharacter);
@@ -57,15 +57,24 @@ public class JSONCharacterDAO implements CharacterDAO {
     }
 
     @Override
-    public boolean readJson() {
-        try {
-            Gson gson = new Gson();
+    public ArrayList<MyCharacter> readCharactersFromJson() throws IOException {
+        ArrayList<MyCharacter> characters;
             String text = Files.readString(path);
-            List<MyCharacter> characters = gson.fromJson(text, ArrayList.class);
-            System.out.println(characters);
-        } catch (IOException e) {
-            return false;
+            characters = gson.fromJson(text, ArrayList.class);
+        System.out.println(characters);
+        return characters;
+    }
+
+    @Override
+    public ArrayList<MyCharacter> readCharactersFromJsonByName(String name) throws IOException {
+        ArrayList<MyCharacter> characters;
+        String text = Files.readString(path);
+        characters = gson.fromJson(text, ArrayList.class);
+        for (int i=0; i< characters.size(); i++ ) {
+            if (name.equals(characters.get(i).getName())){
+                characters.add(characters.get(i));
+            }
         }
-        return true;
+        return characters;
     }
 }
