@@ -4,6 +4,7 @@ import Business.Entity.MyCharacter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface CharacterDAO {
 
@@ -12,9 +13,7 @@ public interface CharacterDAO {
     boolean createJson(MyCharacter myCharacter);
 
 
-    ArrayList<MyCharacter> readCharactersFromJson() throws IOException;
-
-    ArrayList<MyCharacter> readCharactersFromJsonByName(String name) throws IOException;
+    List<MyCharacter> readCharactersFromJson() throws IOException;
 }
 
 

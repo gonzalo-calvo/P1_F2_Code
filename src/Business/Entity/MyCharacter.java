@@ -78,4 +78,12 @@ public class MyCharacter {
     public void setType(String type) {
         this.type = type;
     }
+
+    public boolean checkName(String menuName){
+        if (menuName.equals(this.name)){
+            return true;
+        }
+        return false;
+    }
+
 }

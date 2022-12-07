@@ -7,6 +7,7 @@ import Presentation.MainView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class CharacterManager {
@@ -98,7 +99,8 @@ public class CharacterManager {
 
         String name = mainView.scanLine();
 
-        ArrayList<MyCharacter> myCharactersList = characterDAO.readCharactersFromJson();
+        List<MyCharacter> myCharactersList = characterDAO.readCharactersFromJson();
+        filterByName(myCharactersList,name);//TODO: DEVUELVE ARRAY DE PERSONAJES FILTRADOS POR NOMBRE
 
 
 
@@ -119,6 +121,20 @@ public class CharacterManager {
             mainView.printMyCharacter(myCharactersList.get(option-1));
         }
 
+
+    }
+
+    public ArrayList<MyCharacter> filterByName(List<MyCharacter> myCharactersList, String name) {
+        ArrayList<MyCharacter> filteredCharacters = new ArrayList<>();
+        for (int i=0; i< myCharactersList.size(); i++ ) {
+            if (name.equals(myCharactersList.get(i).getName())){
+                filteredCharacters.add(myCharactersList.get(i));
+                /*for (int z=0; z< filteredCharacters.size(); z++ ) {
+                    System.out.println(filteredCharacters.get(z).getPlayer());
+                }*/
+            };
+        }
+        return filteredCharacters;
 
     }
 }
