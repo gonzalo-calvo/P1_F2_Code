@@ -1,6 +1,8 @@
 package Presentation;
 
+import Business.Manager.AdventureManager;
 import Business.Manager.CharacterManager;
+import Business.Manager.MonsterManager;
 
 import java.io.IOException;
 
@@ -9,18 +11,21 @@ public class MenuController {
     MainView mainView;
 
     CharacterManager characterManager;
+    AdventureManager adventureManager;
+    MonsterManager monsterManager;
 
-    public MenuController(MainView mainView, CharacterManager characterManager) {
+    public MenuController(MainView mainView, CharacterManager characterManager, AdventureManager adventureManager, MonsterManager monsterManager) {
         this.mainView = mainView;
         this.characterManager = characterManager;
+        this.adventureManager = adventureManager;
+        this.monsterManager = monsterManager;
     }
 
-    public void start() throws IOException {
-        int option = 0;
-        System.out.println("The tavern keeper looks at you and says:");
-        printMenu();
+    public void start(){
+        int option;
 
         do {
+            printMenu();
             option = mainView.askUserOptionBetweenNumbers("", 1, 5);
 
             switch (option){
@@ -31,7 +36,7 @@ public class MenuController {
                     characterManager.listCharacters();
                     break;
                 case 3:
-                    System.out.println("create adventure");
+                    adventureManager.createAdventure(monsterManager.getMonsters());
                     break;
                 case 4:
                     System.out.println("start adventure");
@@ -46,6 +51,7 @@ public class MenuController {
     }
 
     private void printMenu() {
+        System.out.println("The tavern keeper looks at you and says:");
         System.out.println("“Welcome adventurer! How can I help you?”\n");
         System.out.println("    1) Character creation");
         System.out.println("    2) List characters");

@@ -79,11 +79,7 @@ public class MyCharacter {
         this.type = type;
     }
 
-    public boolean checkName(String menuName){
-        if (menuName.equals(this.name)){
-            return true;
-        }
-        return false;
+    public String myToString() {
+        return name + ", " + player + ", " + experience + ", " + body + ", " + mind + ", " + spirit + ", " + type;
     }
-
 }

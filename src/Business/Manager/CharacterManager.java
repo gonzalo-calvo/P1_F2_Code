@@ -2,10 +2,8 @@ package Business.Manager;
 
 import Business.Entity.MyCharacter;
 import Persistance.DAO.CharacterDAO;
-import Persistance.JSONDAO.JSONCharacterDAO;
 import Presentation.MainView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,11 +19,11 @@ public class CharacterManager {
         this.characterDAO = characterDAO;
     }
 
-    public void createCharacter() throws IOException {
+    public void createCharacter() {
         MyCharacter myCharacter = new MyCharacter();
         mainView.printLine("Tavern keeper: “Oh, so you are new to this land.”");
 
-        myCharacter.setName(mainView.askUserForValidCharacterName());
+        myCharacter.setName(mainView.askUserForValidCharacterName(characterDAO.gonzaloReadCharactersFromJSON()));
         mainView.printLine("\nTavern keeper: “Hello, " + myCharacter.getName() + ", be welcome.”");
 
         myCharacter.setPlayer(mainView.askUserForValidPlayerName());
@@ -55,20 +53,18 @@ public class CharacterManager {
         diceSum = diceOne + diceTwo;
         System.out.println("Spirit: You rolled " + diceSum + " (" + diceOne + " and " + diceTwo + ").");
 
+        myCharacter.setType("Adventurer");
+
         mainView.printStats(myCharacter);
 
-        mainView.printLine("\nThe new character Finrod Felagund has been created.\n");
+        mainView.printLine("\nThe new character " + myCharacter.getName() + " has been created.\n");
 
-        if (characterDAO.createJson(myCharacter)){
+        if (characterDAO.gonzaloAddMyCharacterToList(myCharacter)){
             System.out.println("character created correctly");
-            characterDAO.readCharactersFromJson();//TODO: (quitar)PRUEBA PARA VER QUE MOSTRABA EL ARRAY DE PERSONAJES
-
         } else {
             System.out.println("Error creating character");
         }
-
     }
-
 
     private int setStatByDiceNumber(int i) {
         if (i == 2){
@@ -89,44 +85,77 @@ public class CharacterManager {
         return rand.nextInt(numFaces-1)+1;
     }
 
-
-    public void listCharacters() throws IOException {
-        int option;
+    public void listCharacters(){
+        int meet;
+        MyCharacter auxCharacter = null;
+        ArrayList<MyCharacter> nameMyCharacterList = characterDAO.gonzaloReadCharactersFromJSON();
+        String confirmationDelite;
 
         mainView.printLine("\nTavern keeper: “Lads! They want to see you!”");
         mainView.printLine("“Who piques your interest?”\n");
         mainView.printLineWithNoCarrilReturn("-> Enter the name of the Player to filter: ");
+        String playerName = mainView.scanLine();
 
-        String name = mainView.scanLine();
-
-        List<MyCharacter> myCharactersList = characterDAO.readCharactersFromJson();
-        filterByName(myCharactersList,name);//TODO: DEVUELVE ARRAY DE PERSONAJES FILTRADOS POR NOMBRE
-
-
-
-        //aqui printar solo los characters que tengan el mismo nombre, falta pulir pq lo de debajo no esta bien
-        mainView.printLine("\nYou watch as some adventurers get up from their chairs and approach you.\n");
-        for (int i = 0; i < myCharactersList.size(); i++) {
-            mainView.printLine("    " + i + ". " +  myCharactersList.get(i).getName());
-        }
-        mainView.printLine("    0. Back\n");
-        mainView.printLineWithNoCarrilReturn("Who would you like to meet [0.." + (myCharactersList.size()+1) + "]:");
-        option = mainView.askUserOptionBetweenNumbers("", 0, myCharactersList.size()+1);
-        if (option == -1){
-            //aqui printamos todos los characters de la lista de characters
+        if (playerName.equals("")){
             mainView.printLine("\nYou watch as all adventurers get up from their chairs and approach you.\n");
+            //Print full list
+            mainView.printForListCharacters(nameMyCharacterList);
+            meet = mainView.askUserOptionBetweenNumbers("Who would you like to meet [0.." + nameMyCharacterList.size() + "]: ", 0, nameMyCharacterList.size());
+            if (meet == 0){
+                return;
+            } else {
+                auxCharacter = nameMyCharacterList.get(meet - 1);
+            }
         } else {
-            mainView.printLine("\nTavern keeper: “Hey " + myCharactersList.get(option-1).getName() + " get here; the boss wants to see you!”\n");
-            //aqui se printa el character escogido
-            mainView.printMyCharacter(myCharactersList.get(option-1));
+            mainView.printLine("\nYou watch as some adventurers get up from their chairs and approach you.\n");
+            ArrayList<MyCharacter> nameMyCharacter = getCharactersListByName(nameMyCharacterList, playerName);
+            if (!nameMyCharacter.isEmpty()) {
+                mainView.printForListCharacters(nameMyCharacter);
+                meet = mainView.askUserOptionBetweenNumbers("Who would you like to meet [0.." + nameMyCharacterList.size() + "]: ", 0, nameMyCharacterList.size());
+                if (meet == 0){
+                    return;
+                } else {
+                    auxCharacter = nameMyCharacterList.get(meet - 1);
+                }
+            } else {
+                mainView.printLine("No character with name: " + playerName + "in database.");
+            }
         }
 
+        mainView.printLine("\nTavern keeper: “Hey " + auxCharacter.getName() + " get here; the boss wants to see you!”\n");
+
+        mainView.printFullMyCharacter(auxCharacter);
+
+        mainView.printLine("\n[Enter name to delete, or press enter to cancel]");
+        mainView.printLine("Do you want to delete " + auxCharacter.getName() + "?");
+
+        confirmationDelite = mainView.scanLine();
+
+        if (!confirmationDelite.equals("")){
+            mainView.printLine("\nTavern keeper: “I’m sorry kiddo, but you have to leave.”\n");
+            mainView.printLine("Character Jinx left the Guild.\n");
+            characterDAO.gonzaloRemoveMyCharacterFromList(auxCharacter);
+        }
+
+    }
+
+    private ArrayList<MyCharacter> getCharactersListByName(ArrayList<MyCharacter> gonzaloReadCharactersFromJSON, String name) {
+        ArrayList<MyCharacter> namedCharacterList = null;
+
+        for (int i = 0; i < gonzaloReadCharactersFromJSON.size(); i++) {
+            if (gonzaloReadCharactersFromJSON.get(i).getName().contains(name)){
+                namedCharacterList.add(gonzaloReadCharactersFromJSON.get(i));
+            }
+        }
+
+        return namedCharacterList;
 
     }
 
     public ArrayList<MyCharacter> filterByName(List<MyCharacter> myCharactersList, String name) {
         ArrayList<MyCharacter> filteredCharacters = new ArrayList<>();
-        for (int i=0; i< myCharactersList.size(); i++ ) {
+
+        for (int i=0; i<    myCharactersList.size(); i++ ) {
             if (name.equals(myCharactersList.get(i).getName())){
                 filteredCharacters.add(myCharactersList.get(i));
                 /*for (int z=0; z< filteredCharacters.size(); z++ ) {

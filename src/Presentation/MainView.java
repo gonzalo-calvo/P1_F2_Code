@@ -1,7 +1,10 @@
 package Presentation;
 
+import Business.Entity.Encounter;
+import Business.Entity.Monster;
 import Business.Entity.MyCharacter;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +16,15 @@ public class MainView {
     public MainView() {
     }
 
+    public static void printLogo() {
+        System.out.println("   ____ _               __       __    ____ ___   ___   _____");
+        System.out.println("  / __/(_)__ _   ___   / /___   / /   / __// _ \\ / _ \\ / ___/");
+        System.out.println(" _\\ \\ / //  ' \\ / _ \\ / // -_) / /__ _\\ \\ / , _// ___// (_ /");
+        System.out.println("/___//_//_/_/_// .__//_/ \\__/ /____//___//_/|_|/_/    \\___/");
+        System.out.println("              /_/\n");
+        System.out.println("Welcome to simple LSRPG\n");
+    }
+
     public void printLine(String line){
         System.out.println(line);
     }
@@ -21,15 +33,11 @@ public class MainView {
         System.out.print(line);
     }
 
-    public String scanLine() {
-        return scanner.nextLine();
-    }
 
     public int askUserOptionBetweenNumbers(String text, int min, int max){
         int option;
         String input;
 
-        Scanner scanner = new Scanner(System.in);
 
         do{
             System.out.print(text);
@@ -54,7 +62,7 @@ public class MainView {
     }
 
 
-    public String askUserForValidCharacterName() {
+    public String askUserForValidCharacterName(ArrayList<MyCharacter> myCharacters) {
         String playerName, finalName="";
         boolean flag = true;
         Matcher hasDigit, hasSpecial;
@@ -72,14 +80,18 @@ public class MainView {
 
             if (!hasSpecial.find() && !hasDigit.find()){
                 flag = false;
-                finalName = myToUpperCamelCase(playerName);
-                System.out.println("no special characters and UCC is: " + finalName);
+                for (int i = 0; i < myCharacters.size(); i++) {
+                    if (myCharacters.get(i).getName().equals(playerName)){
+                        flag = true;
+                    }
+                }
             } else {
                 System.out.println("Incorrect player name syntax's.");
             }
 
         } while (flag);
-
+        finalName = myToUpperCamelCase(playerName);
+        System.out.println("no special characters and UCC is: " + finalName);
         return finalName;
     }
 
@@ -108,7 +120,7 @@ public class MainView {
     public String askUserForValidPlayerName() {
         System.out.println("“And now, if I may break the fourth wall, who is your Player?”\n");
         System.out.print("-> Enter the player’s name: ");
-        return scanLine();
+        return scanner.nextLine();
     }
 
     public void printStats(MyCharacter myCharacter) {
@@ -124,5 +136,40 @@ public class MainView {
         System.out.println("* Player:   " + myCharacter.getPlayer());
         System.out.println("* Class:    " + myCharacter.getType());
 
+    }
+
+    public void printFullMyCharacter(MyCharacter myCharacter){
+        System.out.println("* Name:     " + myCharacter.getName());
+        System.out.println("* Player:   " + myCharacter.getPlayer());
+        System.out.println("* XP:       " + myCharacter.getExperience());
+        System.out.println("* Body:     " + myCharacter.getBody());
+        System.out.println("* Mind:     " + myCharacter.getMind());
+        System.out.println("* Spirit:   " + myCharacter.getSpirit());
+        System.out.println("* Class:    " + myCharacter.getType());
+    }
+
+    public void printFullMyMonster(Monster monster) {
+        System.out.println("* Name:     " + monster.getName());
+        System.out.println("* Challenge:     " + monster.getChallenge());
+        System.out.println("* Experience:     " + monster.getExperience());
+        System.out.println("* HitPoints:     " + monster.getHitPoints());
+        System.out.println("* Initiative:     " + monster.getInitiative());
+        System.out.println("* DamageDice:     " + monster.getDamageDice());
+        System.out.println("* DamageType:     " + monster.getDamageType());
+    }
+
+    public void chooseMonstersForEncounter(ArrayList<Monster> monsterList, Encounter encounter){
+
+    }
+
+    public String scanLine() {
+        return scanner.nextLine();
+    }
+
+    public void printForListCharacters(ArrayList<MyCharacter> myCharacterList) {
+        for (int i = 0; i < myCharacterList.size(); i++) {
+            System.out.println("   " + (i+1) + ". " + myCharacterList.get(i).getName());
+        }
+        System.out.println("\n   0. Back\n");
     }
 }

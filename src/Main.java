@@ -1,6 +1,12 @@
+import Business.Manager.AdventureManager;
 import Business.Manager.CharacterManager;
+import Business.Manager.MonsterManager;
+import Persistance.DAO.AdventureDAO;
 import Persistance.DAO.CharacterDAO;
+import Persistance.DAO.MonsterDAO;
+import Persistance.JSONDAO.JSONAdventureDAO;
 import Persistance.JSONDAO.JSONCharacterDAO;
+import Persistance.JSONDAO.JSONMonsterDAO;
 import Presentation.MainView;
 import Presentation.MenuController;
 
@@ -8,32 +14,27 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        System.out.println("Hello world!");
-
-        printLogo();
 
 
         System.out.println("Loading data...");
         System.out.println("Data was successfuly loaded.\n");
 
         MainView mainView = new MainView();
+        mainView.printLogo();
+
         CharacterDAO characterDAO = new JSONCharacterDAO();
+        AdventureDAO adventureDAO = new JSONAdventureDAO();
+        MonsterDAO monsterDAO = new JSONMonsterDAO();
 
         CharacterManager characterManager = new CharacterManager(mainView, characterDAO);
+        AdventureManager adventureManager = new AdventureManager(mainView, adventureDAO);
+        MonsterManager monsterManager = new MonsterManager(mainView, monsterDAO);
 
 
-        MenuController menuController = new MenuController(mainView, characterManager);
+        MenuController menuController = new MenuController(mainView, characterManager, adventureManager, monsterManager);
         menuController.start();
 
 
     }
 
-    private static void printLogo() {
-        System.out.println("   ____ _               __       __    ____ ___   ___   _____");
-        System.out.println("  / __/(_)__ _   ___   / /___   / /   / __// _ \\ / _ \\ / ___/");
-        System.out.println(" _\\ \\ / //  ' \\ / _ \\ / // -_) / /__ _\\ \\ / , _// ___// (_ /");
-        System.out.println("/___//_//_/_/_// .__//_/ \\__/ /____//___//_/|_|/_/    \\___/");
-        System.out.println("              /_/\n");
-        System.out.println("Welcome to simple LSRPG\n");
-    }
 }
