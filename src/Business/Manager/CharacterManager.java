@@ -12,6 +12,7 @@ public class CharacterManager {
 
     MainView mainView;
     CharacterDAO characterDAO;
+
     int diceOne, diceTwo, diceSum;
 
     public CharacterManager(MainView mainView, CharacterDAO characterDAO) {
@@ -30,8 +31,7 @@ public class CharacterManager {
         mainView.printLine("Tavern keeper: “I see, I see...”");
 
         mainView.printLine("“Now, are you an experienced adventurer?”\n");
-        //TODO: AJUSTAR NIVEL DE EXPERIENCIA CUANDO LE INTRIDUCES EL NIVEL
-        myCharacter.setExperience(mainView.askUserOptionBetweenNumbers("-> Enter the character’s level [1..10]: ", 1, 10));
+        myCharacter.setExperience(((mainView.askUserOptionBetweenNumbers("-> Enter the character’s level [1..10]: ", 1, 10))*100)-100);
         mainView.printLine("Tavern keeper: “Oh, so you are level " + myCharacter.getExperience() + "!”");
         mainView.printLine("“Great, let me get a closer look at you...”");
 
@@ -88,7 +88,7 @@ public class CharacterManager {
 
     public void listCharacters(){
         int meet;
-        MyCharacter auxCharacter = null;
+        MyCharacter auxCharacter;
         ArrayList<MyCharacter> nameMyCharacterList = characterDAO.gonzaloReadCharactersFromJSON();
         String confirmationDelite;
 
@@ -109,17 +109,18 @@ public class CharacterManager {
             }
         } else {
             mainView.printLine("\nYou watch as some adventurers get up from their chairs and approach you.\n");
-            ArrayList<MyCharacter> nameMyCharacter = getCharactersListByName(nameMyCharacterList, playerName);
+            ArrayList<MyCharacter> nameMyCharacter = getCharactersListByPlayerName(nameMyCharacterList, playerName);
             if (!nameMyCharacter.isEmpty()) {
                 mainView.printForListCharacters(nameMyCharacter);
-                meet = mainView.askUserOptionBetweenNumbers("Who would you like to meet [0.." + nameMyCharacterList.size() + "]: ", 0, nameMyCharacterList.size());
+                meet = mainView.askUserOptionBetweenNumbers("Who would you like to meet [0.." + nameMyCharacter.size() + "]: ", 0, nameMyCharacter.size());
                 if (meet == 0){
                     return;
                 } else {
-                    auxCharacter = nameMyCharacterList.get(meet - 1);
+                    auxCharacter = nameMyCharacter.get(meet - 1);
                 }
             } else {
-                mainView.printLine("No character with name: " + playerName + "in database.");
+                mainView.printLine("No character with name: " + playerName + " in database.");
+                return;
             }
         }
 
@@ -132,9 +133,9 @@ public class CharacterManager {
 
         confirmationDelite = mainView.scanLine();
 
-        if (!confirmationDelite.equals("")){
+        if (confirmationDelite.equals(auxCharacter.getName())){
             mainView.printLine("\nTavern keeper: “I’m sorry kiddo, but you have to leave.”\n");
-            mainView.printLine("Character Jinx left the Guild.\n");
+            mainView.printLine("Character " + auxCharacter.getName() + " left the Guild.\n");
             if(!characterDAO.gonzaloRemoveMyCharacterFromList(auxCharacter)){
                 System.out.println("Error while expelling character");
             }
@@ -144,17 +145,14 @@ public class CharacterManager {
 
     }
 
-    private ArrayList<MyCharacter> getCharactersListByName(ArrayList<MyCharacter> gonzaloReadCharactersFromJSON, String name) {
-        ArrayList<MyCharacter> namedCharacterList = null;
-
-        for (int i = 0; i < gonzaloReadCharactersFromJSON.size(); i++) {
-            if (gonzaloReadCharactersFromJSON.get(i).getName().contains(name)){
-                namedCharacterList.add(gonzaloReadCharactersFromJSON.get(i));
+    private ArrayList<MyCharacter> getCharactersListByPlayerName(ArrayList<MyCharacter> myCharacters, String name) {
+        ArrayList<MyCharacter> auxCharacters = new ArrayList<>();
+        for (MyCharacter myCharacter : myCharacters) {
+            if (myCharacter.getPlayer().toLowerCase().contains(name.toLowerCase())) {
+                auxCharacters.add(myCharacter);
             }
         }
-
-        return namedCharacterList;
-
+        return auxCharacters;
     }
 
     public ArrayList<MyCharacter> filterByName(List<MyCharacter> myCharactersList, String name) {

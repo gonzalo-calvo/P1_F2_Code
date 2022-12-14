@@ -53,7 +53,7 @@ public class MenuController {
     }
 
     private void printMenu() {
-        System.out.println("The tavern keeper looks at you and says:");
+        System.out.println("\nThe tavern keeper looks at you and says:");
         System.out.println("“Welcome adventurer! How can I help you?”\n");
         System.out.println("    1) Character creation");
         System.out.println("    2) List characters");

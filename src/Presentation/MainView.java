@@ -22,7 +22,7 @@ public class MainView {
         System.out.println(" _\\ \\ / //  ' \\ / _ \\ / // -_) / /__ _\\ \\ / , _// ___// (_ /");
         System.out.println("/___//_//_/_/_// .__//_/ \\__/ /____//___//_/|_|/_/    \\___/");
         System.out.println("              /_/\n");
-        System.out.println("Welcome to simple LSRPG\n");
+        System.out.println("Welcome to simple LSRPG");
     }
 
     public void printLine(String line){
@@ -42,9 +42,9 @@ public class MainView {
         do{
             System.out.print(text);
             input = scanner.nextLine();
-            if (input == ""){
+            /*if (input == ""){
                 return -1;
-            }
+            }*/
 
             try {
                 option = Integer.parseInt(input);

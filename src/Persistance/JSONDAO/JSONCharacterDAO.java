@@ -130,8 +130,16 @@ public class JSONCharacterDAO implements CharacterDAO {
 
     @Override
     public boolean gonzaloRemoveMyCharacterFromList(MyCharacter auxCharacter) {
+        //TODO: QUIZAS ESTARIA BIEN HACER LA FUNCION BOOLEANA PARA CHEQUEAR QUE SE HA ELIMINADO BIEN EL CHARACTER
         ArrayList<MyCharacter> myCharacters = gonzaloReadCharactersFromJSON();
-        myCharacters.remove(auxCharacter);
+
+        for (int i = 0; i < myCharacters.size(); i++) {
+            if (myCharacters.get(i).getName().equals(auxCharacter.getName())){
+                myCharacters.remove(i);
+            }
+        }
+
+
         return writeArrayObjectToJavaFile(myCharacters);
     }
 
@@ -150,8 +158,7 @@ public class JSONCharacterDAO implements CharacterDAO {
             list.add(obj);
         }
 
-        try {
-            FileWriter file = new FileWriter(route);
+        try (FileWriter file = new FileWriter(route)) {
             file.write(list.toJSONString());
         } catch (IOException e) {
             System.out.println("ERROR: file characters not possible to write");
