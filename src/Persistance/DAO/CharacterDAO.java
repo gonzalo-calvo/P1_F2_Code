@@ -17,7 +17,7 @@ public interface CharacterDAO {
 
     boolean gonzaloAddMyCharacterToList(MyCharacter myCharacter);
 
-    void gonzaloRemoveMyCharacterFromList(MyCharacter auxCharacter);
+    boolean gonzaloRemoveMyCharacterFromList(MyCharacter auxCharacter);
 }
 
 

@@ -1,10 +1,9 @@
 package Presentation;
 
+import Business.AdventureExecuter;
 import Business.Manager.AdventureManager;
 import Business.Manager.CharacterManager;
 import Business.Manager.MonsterManager;
-
-import java.io.IOException;
 
 public class MenuController {
 
@@ -13,12 +12,14 @@ public class MenuController {
     CharacterManager characterManager;
     AdventureManager adventureManager;
     MonsterManager monsterManager;
+    AdventureExecuter adventureExecuter;
 
-    public MenuController(MainView mainView, CharacterManager characterManager, AdventureManager adventureManager, MonsterManager monsterManager) {
+    public MenuController(MainView mainView, CharacterManager characterManager, AdventureManager adventureManager, MonsterManager monsterManager, AdventureExecuter adventureExecuter) {
         this.mainView = mainView;
         this.characterManager = characterManager;
         this.adventureManager = adventureManager;
         this.monsterManager = monsterManager;
+        this.adventureExecuter = adventureExecuter;
     }
 
     public void start(){
@@ -40,6 +41,7 @@ public class MenuController {
                     break;
                 case 4:
                     System.out.println("start adventure");
+
                     break;
                 case 5:
                     System.out.println("\nTavern keeper: “Are you leaving already? See you soon, adventurer.”");

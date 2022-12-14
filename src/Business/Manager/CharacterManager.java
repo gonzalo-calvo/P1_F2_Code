@@ -30,6 +30,7 @@ public class CharacterManager {
         mainView.printLine("Tavern keeper: “I see, I see...”");
 
         mainView.printLine("“Now, are you an experienced adventurer?”\n");
+        //TODO: AJUSTAR NIVEL DE EXPERIENCIA CUANDO LE INTRIDUCES EL NIVEL
         myCharacter.setExperience(mainView.askUserOptionBetweenNumbers("-> Enter the character’s level [1..10]: ", 1, 10));
         mainView.printLine("Tavern keeper: “Oh, so you are level " + myCharacter.getExperience() + "!”");
         mainView.printLine("“Great, let me get a closer look at you...”");
@@ -134,7 +135,11 @@ public class CharacterManager {
         if (!confirmationDelite.equals("")){
             mainView.printLine("\nTavern keeper: “I’m sorry kiddo, but you have to leave.”\n");
             mainView.printLine("Character Jinx left the Guild.\n");
-            characterDAO.gonzaloRemoveMyCharacterFromList(auxCharacter);
+            if(!characterDAO.gonzaloRemoveMyCharacterFromList(auxCharacter)){
+                System.out.println("Error while expelling character");
+            }
+        } else {
+            mainView.printLine("Tavern keeper: “No alarms kiddo, you can go in peace.”");
         }
 
     }

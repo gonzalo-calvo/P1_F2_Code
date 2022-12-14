@@ -1,3 +1,4 @@
+import Business.AdventureExecuter;
 import Business.Manager.AdventureManager;
 import Business.Manager.CharacterManager;
 import Business.Manager.MonsterManager;
@@ -13,7 +14,7 @@ import Presentation.MenuController;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
 
 
         System.out.println("Loading data...");
@@ -26,12 +27,14 @@ public class Main {
         AdventureDAO adventureDAO = new JSONAdventureDAO();
         MonsterDAO monsterDAO = new JSONMonsterDAO();
 
+
         CharacterManager characterManager = new CharacterManager(mainView, characterDAO);
         AdventureManager adventureManager = new AdventureManager(mainView, adventureDAO);
         MonsterManager monsterManager = new MonsterManager(mainView, monsterDAO);
+        AdventureExecuter adventureExecuter = new AdventureExecuter(mainView);
 
 
-        MenuController menuController = new MenuController(mainView, characterManager, adventureManager, monsterManager);
+        MenuController menuController = new MenuController(mainView, characterManager, adventureManager, monsterManager, adventureExecuter);
         menuController.start();
 
 
