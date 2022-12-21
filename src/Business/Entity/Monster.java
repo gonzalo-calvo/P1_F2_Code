@@ -9,8 +9,9 @@ public class Monster {
     private int initiative;
     private String damageDice;
     private String damageType;
+    private int amount;
 
-    public Monster(String name, String challenge, int experience, int hitPoints, int initiative, String damageDice, String damageType) {
+    public Monster(String name, String challenge, int experience, int hitPoints, int initiative, String damageDice, String damageType, int amount) {
         this.name = name;
         this.challenge = challenge;
         this.experience = experience;
@@ -18,6 +19,7 @@ public class Monster {
         this.initiative = initiative;
         this.damageDice = damageDice;
         this.damageType = damageType;
+        this.amount = amount;
     }
 
     public Monster() {
@@ -77,5 +79,13 @@ public class Monster {
 
     public void setDamageType(String damageType) {
         this.damageType = damageType;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

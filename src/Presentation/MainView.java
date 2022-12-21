@@ -1,9 +1,11 @@
 package Presentation;
 
+import Business.Entity.Adventure;
 import Business.Entity.Encounter;
 import Business.Entity.Monster;
 import Business.Entity.MyCharacter;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -80,9 +82,11 @@ public class MainView {
 
             if (!hasSpecial.find() && !hasDigit.find()){
                 flag = false;
-                for (int i = 0; i < myCharacters.size(); i++) {
-                    if (myCharacters.get(i).getName().equals(playerName)){
+                for (MyCharacter myCharacter : myCharacters) {
+                    if (myCharacter.getName().toLowerCase().equals(playerName.toLowerCase())) {
                         flag = true;
+                        System.out.println("This name already exists in characters database. Choose another one");
+                        break;
                     }
                 }
             } else {
@@ -149,13 +153,15 @@ public class MainView {
     }
 
     public void printFullMyMonster(Monster monster) {
-        System.out.println("* Name:     " + monster.getName());
-        System.out.println("* Challenge:     " + monster.getChallenge());
+        System.out.println("* Name:           " + monster.getName());
+        System.out.println("* Challenge:      " + monster.getChallenge());
         System.out.println("* Experience:     " + monster.getExperience());
-        System.out.println("* HitPoints:     " + monster.getHitPoints());
+        System.out.println("* HitPoints:      " + monster.getHitPoints());
         System.out.println("* Initiative:     " + monster.getInitiative());
         System.out.println("* DamageDice:     " + monster.getDamageDice());
         System.out.println("* DamageType:     " + monster.getDamageType());
+        System.out.println("************* OPTIONAL *************");
+        System.out.println("* Amount:         " + monster.getAmount());
     }
 
     public void chooseMonstersForEncounter(ArrayList<Monster> monsterList, Encounter encounter){
@@ -171,5 +177,68 @@ public class MainView {
             System.out.println("   " + (i+1) + ". " + myCharacterList.get(i).getName());
         }
         System.out.println("\n   0. Back\n");
+    }
+
+    public void printEncounterMenu(int i, int numEncounters, Encounter encounter) {
+        System.out.println("\n* Encounter " + i + " / " + numEncounters + "");
+        System.out.println("* Monsters in encounter");
+        printMonstersInEncounter(encounter);
+        System.out.println("\n1. Add monster");
+        System.out.println("2. Remove monster");
+        System.out.println("3. Continue\n");
+    }
+
+    public void printMonstersInEncounter(Encounter encounter) {
+        if (encounter.getMonsterList() == null){
+            System.out.println("  # Empty");
+        } else if (encounter.getMonsterList().isEmpty()){
+            System.out.println("  # Empty");
+        }else {
+            for (int i = 1; i <= encounter.getMonsterList().size(); i++) {
+                System.out.println("  " +i + ". " + encounter.getMonsterList().get(i-1).getName() +
+                        " (x" + encounter.getMonsterList().get(i-1).getAmount() + ")");
+            }
+        }
+    }
+
+    public String getValidAdventureName(ArrayList<Adventure> adventureList) {
+        String name;
+        boolean flag = false;
+
+        do{
+            System.out.print("-> Name your adventure: ");
+            name = scanLine();
+            if (adventureList == null){
+                return name;
+            } else {
+                for (Adventure adventure : adventureList) {
+                    if (adventure.getName().equalsIgnoreCase(name)) {
+                        System.out.println("This Adventure name already in database. Try another one\n");
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+        } while (!flag);
+        return name;
+    }
+
+    public void printMonstersToChoose(ArrayList<Monster> monsters) {
+        System.out.println();
+        for (int i = 1; i < monsters.size()+1; i++) {
+            System.out.println(i + ". " + monsters.get(i-1).getName() + " (" + monsters.get(i-1).getChallenge() + ")");
+        }
+        System.out.println();
+    }
+
+    public void printFullAdventure(Adventure adventure) {
+        System.out.println("Adventure name: " + adventure.getName());
+        System.out.println("Num encounters: " + adventure.getNumEncounters());
+        for (int i = 0; i < adventure.getNumEncounters(); i++) {
+            System.out.println("Encounter [" + i + "]");
+            for (int j = 0; j < adventure.getEncountersList().get(i).getMonsterList().size(); j++) {
+                printFullMyMonster(adventure.getEncountersList().get(i).getMonsterList().get(j));
+            }
+        }
     }
 }

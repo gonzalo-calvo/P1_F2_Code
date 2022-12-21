@@ -6,7 +6,7 @@ public class Adventure {
 
     private String name;
     private int numEncounters;
-    ArrayList<Encounter> encounterList;
+    ArrayList<Encounter> encounterList = new ArrayList<>();
 
     public Adventure(String name, int numEncounters, ArrayList<Encounter> encounterList) {
         this.name = name;
