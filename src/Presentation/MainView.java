@@ -203,21 +203,26 @@ public class MainView {
 
     public String getValidAdventureName(ArrayList<Adventure> adventureList) {
         String name;
-        boolean flag = false;
+        boolean flag;
 
         do{
+            flag = true;
             System.out.print("-> Name your adventure: ");
             name = scanLine();
-            if (adventureList == null){
-                return name;
-            } else {
-                for (Adventure adventure : adventureList) {
-                    if (adventure.getName().equalsIgnoreCase(name)) {
-                        System.out.println("This Adventure name already in database. Try another one\n");
-                        flag = true;
-                        break;
+            if (!name.equals("")) {
+                if (adventureList == null) {
+                    return name;
+                } else {
+                    for (Adventure adventure : adventureList) {
+                        if (adventure.getName().equalsIgnoreCase(name)) {
+                            System.out.println("This Adventure name already in database. Try another one\n");
+                            flag = false;
+                        }
                     }
                 }
+            } else {
+                flag = false;
+                System.out.println("Name must contain at least one character. Try again\n");
             }
         } while (!flag);
         return name;
