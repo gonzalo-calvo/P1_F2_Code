@@ -4,6 +4,7 @@ import Business.AdventureExecuter;
 import Business.Entity.Adventure;
 import Business.Entity.Encounter;
 import Business.Entity.Monster;
+import Business.Entity.MyCharacter;
 import Persistance.DAO.AdventureDAO;
 import Presentation.MainView;
 
@@ -13,13 +14,12 @@ public class AdventureManager {
 
     MainView mainView;
     AdventureDAO adventureDAO;
-    AdventureExecuter adventureExecuter;
 
-    public AdventureManager(MainView mainView, AdventureDAO adventureDAO, AdventureExecuter adventureExecuter) {
+    public AdventureManager(MainView mainView, AdventureDAO adventureDAO) {
         this.mainView = mainView;
         this.adventureDAO = adventureDAO;
-        this.adventureExecuter = adventureExecuter;
     }
+
 
     public void  createAdventure(ArrayList<Monster> monsters) {
         Adventure adventure = new Adventure();
@@ -98,5 +98,7 @@ public class AdventureManager {
         monster.setHitPoints(monsters.get(monsterNum).getHitPoints());
         monster.setAmount(amount);
     }
+
+
 
 }

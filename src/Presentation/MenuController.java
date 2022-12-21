@@ -40,7 +40,7 @@ public class MenuController {
                     adventureManager.createAdventure(monsterManager.getMonsters());
                     break;
                 case 4:
-                    System.out.println("start adventure");
+                    adventureExecuter.adventureExecuter();
 
                     break;
                 case 5:
@@ -58,7 +58,7 @@ public class MenuController {
         System.out.println("    1) Character creation");
         System.out.println("    2) List characters");
         System.out.println("    3) Create an adventure");
-        System.out.println("    4) Start an adventure");
+        characterManager.checkNumberOfCharacters();
         System.out.println("    5) Exit\n");
         System.out.print("Your answer: ");
     }

@@ -30,8 +30,9 @@ public class Main {
 
         CharacterManager characterManager = new CharacterManager(mainView, characterDAO);
         MonsterManager monsterManager = new MonsterManager(mainView, monsterDAO);
-        AdventureExecuter adventureExecuter = new AdventureExecuter(mainView);
-        AdventureManager adventureManager = new AdventureManager(mainView, adventureDAO, adventureExecuter);
+        AdventureManager adventureManager = new AdventureManager(mainView, adventureDAO);
+        AdventureExecuter adventureExecuter = new AdventureExecuter(mainView, adventureManager, monsterDAO, characterManager, characterDAO);
+
 
 
         MenuController menuController = new MenuController(mainView, characterManager, adventureManager, monsterManager, adventureExecuter);
