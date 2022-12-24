@@ -99,6 +99,13 @@ public class AdventureManager {
         monster.setAmount(amount);
     }
 
+    public void showAdventureList(ArrayList<Adventure> adventures) {
+        int index = 0;
+        mainView.printLine("\n Available adventures: ");
+        for (Adventure adventure : adventures) {
+            System.out.println(index + 1 + ". " + adventure.getName());
+            index++;
+        }
 
-
+    }
 }

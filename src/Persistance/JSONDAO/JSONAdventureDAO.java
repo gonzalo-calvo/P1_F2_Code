@@ -39,7 +39,7 @@ public class JSONAdventureDAO implements AdventureDAO {
         }
 
         String fileContent = contentBuilder.toString();
-        System.out.println("Adventure file content is: " + fileContent);
+        //System.out.println("Adventure file content is: " + fileContent);
 
         Type userListType = new TypeToken<ArrayList<Adventure>>(){}.getType();
 

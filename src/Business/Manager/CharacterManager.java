@@ -158,7 +158,7 @@ public class CharacterManager {
 
     public void showCharacterList(ArrayList<MyCharacter> myCharacters) {
         int index = 0;
-        mainView.printLine("\n Available characters: ");
+        mainView.printLine("Available characters: ");
         for (MyCharacter myCharacter : myCharacters) {
             System.out.println(index+1 +". "+myCharacter.getName());
             index++;
