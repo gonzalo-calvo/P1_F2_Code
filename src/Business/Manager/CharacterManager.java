@@ -156,28 +156,14 @@ public class CharacterManager {
         return auxCharacters;
     }
 
-    public void showCharacterList(ArrayList<MyCharacter> myCharacters) {
-        int index = 0;
-        mainView.printLine("Available characters: ");
-        for (MyCharacter myCharacter : myCharacters) {
-            System.out.println(index+1 +". "+myCharacter.getName());
-            index++;
-        }
 
-    }
 
     public boolean checkNumberOfCharacters() {
         boolean startAdventure;
         ArrayList<MyCharacter> myCharacterList = characterDAO.gonzaloReadCharactersFromJSON();
         int numberOfCharacters = myCharacterList.size();
 
-        if (numberOfCharacters <3 ) {
-            mainView.printLine("    4) Start an adventure (disabled: create at least 3 character first)");
-            startAdventure = false;
-        } else {
-            mainView.printLine("    4) Start an adventure");
-            startAdventure = true;
-        }
+        startAdventure = numberOfCharacters >= 3;
         return startAdventure;
     }
 
@@ -195,4 +181,9 @@ public class CharacterManager {
         return filteredCharacters;
 
     }
+
+    public ArrayList<MyCharacter> getMyCharacterList(){
+        return characterDAO.gonzaloReadCharactersFromJSON();
+    }
+
 }

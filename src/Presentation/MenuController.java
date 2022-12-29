@@ -1,9 +1,12 @@
 package Presentation;
 
 import Business.AdventureExecuter;
+import Business.Entity.MyCharacter;
 import Business.Manager.AdventureManager;
 import Business.Manager.CharacterManager;
 import Business.Manager.MonsterManager;
+
+import java.util.ArrayList;
 
 public class MenuController {
 
@@ -24,9 +27,10 @@ public class MenuController {
 
     public void start(){
         int option;
+        boolean characters;
 
         do {
-            printMenu();
+            characters = printMenu();
             option = mainView.askUserOptionBetweenNumbers("", 1, 5);
 
             switch (option){
@@ -40,8 +44,9 @@ public class MenuController {
                     adventureManager.createAdventure(monsterManager.getMonsters());
                     break;
                 case 4:
-                    adventureExecuter.adventureExecuter();
-
+                    if (characters){
+                        adventureExecuter.executeAdventure(characterManager.getMyCharacterList(), adventureManager.getAdventureList());
+                    }
                     break;
                 case 5:
                     System.out.println("\nTavern keeper: “Are you leaving already? See you soon, adventurer.”");
@@ -52,16 +57,27 @@ public class MenuController {
 
     }
 
-    private void printMenu() {
+    private boolean printMenu() {
+        boolean characters;
         System.out.println("\nThe tavern keeper looks at you and says:");
         System.out.println("“Welcome adventurer! How can I help you?”\n");
         System.out.println("    1) Character creation");
         System.out.println("    2) List characters");
         System.out.println("    3) Create an adventure");
-        characterManager.checkNumberOfCharacters();
+
+        characters = characterManager.checkNumberOfCharacters();
+        if (characters) {
+            mainView.printLine("    4) Start an adventure (disabled: create at least 3 character first)");
+        } else {
+            mainView.printLine("    4) Start an adventure");
+        }
+
         System.out.println("    5) Exit\n");
         System.out.print("Your answer: ");
+        return characters;
     }
+
+
 
 
 }

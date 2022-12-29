@@ -1,16 +1,9 @@
 package Business;
 
 import Business.Entity.Adventure;
-import Business.Entity.Monster;
 import Business.Entity.MyCharacter;
 import Business.Manager.AdventureManager;
-import Business.Manager.CharacterManager;
-import Business.Manager.MonsterManager;
-import Persistance.DAO.AdventureDAO;
-import Persistance.DAO.CharacterDAO;
-import Persistance.DAO.MonsterDAO;
 import Presentation.MainView;
-
 import java.util.ArrayList;
 
 public class AdventureExecuter {
@@ -18,101 +11,94 @@ public class AdventureExecuter {
     MainView mainView;
     AdventureManager adventureManager;
 
-    MonsterDAO monsterDAO;
 
-    CharacterDAO characterDAO;
-
-    CharacterManager characterManager;
-
-    AdventureDAO adventureDAO;
-
-    public AdventureExecuter(MainView mainView, AdventureManager adventureManager, MonsterDAO monsterDAO, CharacterManager characterManager, CharacterDAO characterDAO, AdventureDAO adventureDAO) {
+    public AdventureExecuter(MainView mainView, AdventureManager adventureManager) {
         this.mainView = mainView;
         this.adventureManager = adventureManager;
-        this.monsterDAO = monsterDAO;
-        this.characterManager = characterManager;
-        this.characterDAO = characterDAO;
-        this.adventureDAO = adventureDAO;
     }
 
 
+    public void executeAdventure(ArrayList<MyCharacter> characterList, ArrayList<Adventure> adventureList) {
 
-    public void adventureExecuter() {
         mainView.printLine("Tavern keeper: “So, you are looking to go on an adventure?”");
         mainView.printLine("“Where do you fancy going?”");
 
-        Adventure chosenAdventure = selectAdventure();
+        Adventure chosenAdventure = selectAdventure(adventureList);
 
-        mainView.printLine("\n Tavern keeper: “Dagor-nuin-Giliath – The Battle under the Stars it is!”");
+        mainView.printLine("\n Tavern keeper: “" + chosenAdventure.getName() + " it is!”");
         mainView.printLine("“And how many people shall join you?”");
 
         int characterNumber = mainView.askUserOptionBetweenNumbers("\n Choose a number of characters [3..5]: ", 3, 5);
+
         mainView.printLine("\n Tavern keeper: “Great," + characterNumber + " it is.”");
         mainView.printLine("“Who among these lads shall join you?”");
-        mainView.printLine("\n\n\n------------------------------");
 
-        ArrayList<MyCharacter> characterParty = createParty(characterNumber);
+        chosenAdventure.setCharacterParty(createParty(characterNumber, characterList));
+
         mainView.printLine("Tavern keeper: “Great, good luck on your adventure lads!”");
-        mainView.printLine("The “Dagor-nuin-Giliath – The Battle under the Stars” will start soon...");
+        mainView.printLine("The “" + chosenAdventure.getName() + "” will start soon...");
+
+        //bucle para encounters
+            //fase preparación
+            //bucle fase batalla
+            //fase descanso
+
+        for (int i = 0; i < chosenAdventure.getNumEncounters(); i++) {
+            mainView.printEncounterHeather(i, chosenAdventure.getEncountersList().get(i));
+            preparationStage(chosenAdventure);
+
+        }
 
 
+    }
 
-
+    private void preparationStage(Adventure chosenAdventure) {
 
 
 
 
     }
 
-    private ArrayList<MyCharacter> createParty(int characterNumber){
-        ArrayList<MyCharacter> charactersList = characterDAO.gonzaloReadCharactersFromJSON();
-        ArrayList<MyCharacter> yourParty = new ArrayList<>();
-        ArrayList<String> yourPartyNames = new ArrayList<>();
+    public ArrayList <MyCharacter> createParty(int numCharacters, ArrayList<MyCharacter> charactersList){
+        ArrayList <MyCharacter> yourParty = new ArrayList<>();
 
-        for (int i = 0; i<characterNumber; i++){
-            yourPartyNames.add("Empty");
-        }
-
-        for (int i = 0; i<characterNumber; i++){
-            System.out.println("Your Party ("+i+" / "+ characterNumber + "):");
-
-            for (int j = 0; j < characterNumber; j++){
-
-                System.out.println(j+1 + ". " + yourPartyNames.get(j));
+        for (int i = 0; i < numCharacters; i++){
+            /*************Print actual party**************/
+            mainView.printLine("\n\n------------------------------");
+            System.out.println("Your Party (" + i + " / " + numCharacters + "):");
+            for (int j = 1; j <= numCharacters; j++){
+                if (yourParty.get(i-1) == null){
+                    mainView.printLine("  " + j + ". Empty");
+                } else {
+                    mainView.printLine("  " + j + ". " + yourParty.get(j).getName());
+                }
             }
-            System.out.println("------------------------------");
-            characterManager.showCharacterList(charactersList);
-            System.out.print("\n-> Choose character " + (i+1) + " in your party: ");
-            int chosenCharacter =  mainView.askUserOptionBetweenNumbers("", 1, charactersList.size());
+            mainView.printLine("------------------------------");
 
+            /*********Select next character for party*********/
+            mainView.showCharacterList(charactersList);
+            int chosenCharacter =  mainView.askUserOptionBetweenNumbers("\n-> Choose character " + (i+1) + " in your party: ", 1, charactersList.size());
             yourParty.add(charactersList.get(chosenCharacter-1));
-            yourPartyNames.set(i, charactersList.get(chosenCharacter-1).getName());
-
         }
 
-        System.out.println("--------------------------------");
-        System.out.println("Your Party ("+(yourPartyNames.size())+" / "+ characterNumber + "):");
-        for (int j = 0; j < characterNumber; j++){
-
-            System.out.println(j+1 + ". " + yourPartyNames.get(j));
+        /************** Print party ******************/
+        mainView.printLine("--------------------------------");
+        mainView.printLine("Your Party ("+ numCharacters + " / " + numCharacters + "):");
+        for (int j = 0; j < numCharacters; j++){
+            mainView.printLine("  " + (j+1) + ". " + yourParty.get(j));
         }
         System.out.println("--------------------------------");
-    return yourParty;
+
+        return yourParty;
     }
 
-    public Adventure selectAdventure(){
-        ArrayList<Adventure> adventuresList = adventureDAO.getAdventureList();
-        ArrayList<String> adventureNames = new ArrayList<>();
-        Adventure chosenAdventure = new Adventure();
+    private Adventure selectAdventure(ArrayList<Adventure> adventuresList){
+        int advNum;
 
-        adventureManager.showAdventureList(adventuresList);
-        int chosenAdventureNumber =  mainView.askUserOptionBetweenNumbers("\n -> Choose an adventure: ", 1, adventuresList.size());
+        mainView.showAdventureList(adventuresList);
+        advNum =  mainView.askUserOptionBetweenNumbers("\n -> Choose an adventure: ", 1, adventuresList.size());
 
-        for (int i = 0; i<chosenAdventureNumber; i++){
-            chosenAdventure = adventuresList.get(chosenAdventureNumber-1);
-
-        }
-    return chosenAdventure;
+        return adventuresList.get(advNum - 1);
     }
 
 }

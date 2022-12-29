@@ -7,11 +7,13 @@ public class Adventure {
     private String name;
     private int numEncounters;
     ArrayList<Encounter> encounterList = new ArrayList<>();
+    ArrayList<MyCharacter> characterParty = new ArrayList<>();
 
-    public Adventure(String name, int numEncounters, ArrayList<Encounter> encounterList) {
+    public Adventure(String name, int numEncounters, ArrayList<Encounter> encounterList, ArrayList<MyCharacter> characterParty) {
         this.name = name;
         this.numEncounters = numEncounters;
         this.encounterList = encounterList;
+        this.characterParty = characterParty;
     }
 
     public Adventure() {
@@ -39,5 +41,13 @@ public class Adventure {
 
     public void setEncountersList(ArrayList<Encounter> encounterList) {
         this.encounterList = encounterList;
+    }
+
+    public ArrayList<MyCharacter> getCharacterParty() {
+        return characterParty;
+    }
+
+    public void setCharacterParty(ArrayList<MyCharacter> characterParty) {
+        this.characterParty = characterParty;
     }
 }

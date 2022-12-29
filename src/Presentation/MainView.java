@@ -246,4 +246,33 @@ public class MainView {
             }
         }
     }
+
+    public void showAdventureList(ArrayList<Adventure> adventures) {
+        int i = 0;
+        System.out.println("\n Available adventures: ");
+        for (Adventure adventure : adventures) {
+            System.out.println("  " + (i+1) + ". " + adventure.getName());
+            i++;
+        }
+    }
+
+    public void showCharacterList(ArrayList<MyCharacter> myCharacters) {
+        int index = 0;
+        System.out.println("Available characters: ");
+        for (MyCharacter myCharacter : myCharacters) {
+            System.out.println((index+1) + ". " + myCharacter.getName());
+            index++;
+        }
+
+    }
+
+    public void printEncounterHeather(int numEncounter, Encounter encounter) {
+        numEncounter++;
+        System.out.println("\n---------------------");
+        System.out.println("Starting encounter " + numEncounter + ":");
+        for (int i = 0; i < encounter.getMonsterList().size(); i++) {
+            System.out.println("  - " + encounter.getMonsterList().get(i).getAmount() + "x " + encounter.getMonsterList().get(i).getName());
+        }
+        System.out.println("---------------------\n");
+    }
 }
