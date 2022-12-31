@@ -46,9 +46,12 @@ public class AdventureExecuter {
         for (int i = 0; i < chosenAdventure.getNumEncounters(); i++) {
             mainView.printEncounterHeather(i, chosenAdventure.getEncountersList().get(i));
             preparationStage(chosenAdventure);
-
         }
-
+        mainView.printLine("-------------------------");
+        mainView.printLine("*** Preparation stage ***");
+        mainView.printLine("-------------------------");
+        ArrayList <MyCharacter> party = chosenAdventure.getCharacterParty();
+        prepPhase(party);
 
     }
 
@@ -61,34 +64,38 @@ public class AdventureExecuter {
 
     public ArrayList <MyCharacter> createParty(int numCharacters, ArrayList<MyCharacter> charactersList){
         ArrayList <MyCharacter> yourParty = new ArrayList<>();
+        ArrayList<String> yourPartyNames = new ArrayList<>();
 
-        for (int i = 0; i < numCharacters; i++){
-            /*************Print actual party**************/
-            mainView.printLine("\n\n------------------------------");
-            System.out.println("Your Party (" + i + " / " + numCharacters + "):");
-            for (int j = 1; j <= numCharacters; j++){
-                if (yourParty.get(i-1) == null){
-                    mainView.printLine("  " + j + ". Empty");
-                } else {
-                    mainView.printLine("  " + j + ". " + yourParty.get(j).getName());
-                }
+        /*************Print actual party**************/
+        for (int i = 0; i<numCharacters; i++){
+            yourPartyNames.add("Empty");
+        }
+        for (int i = 0; i<numCharacters; i++){
+            mainView.printLine("Your Party ("+i+" / "+ numCharacters + "):");
+
+            for (int j = 0; j < numCharacters; j++){
+
+                mainView.printLine(j+1 + ". " + yourPartyNames.get(j));
             }
-            mainView.printLine("------------------------------");
+            mainView.printLine("--------------------------------");
+            mainView.showCharacterList(charactersList);
 
             /*********Select next character for party*********/
-            mainView.showCharacterList(charactersList);
             int chosenCharacter =  mainView.askUserOptionBetweenNumbers("\n-> Choose character " + (i+1) + " in your party: ", 1, charactersList.size());
+
             yourParty.add(charactersList.get(chosenCharacter-1));
+            yourPartyNames.set(i, charactersList.get(chosenCharacter-1).getName());
         }
+        mainView.printLine("--------------------------------");
 
         /************** Print party ******************/
-        mainView.printLine("--------------------------------");
-        mainView.printLine("Your Party ("+ numCharacters + " / " + numCharacters + "):");
-        for (int j = 0; j < numCharacters; j++){
-            mainView.printLine("  " + (j+1) + ". " + yourParty.get(j));
-        }
-        System.out.println("--------------------------------");
 
+        mainView.printLine("Your Party ("+(yourPartyNames.size())+" / "+ numCharacters + "):");
+        for (int j = 0; j < numCharacters; j++){
+
+            mainView.printLine(j+1 + ". " + yourPartyNames.get(j));
+        }
+        mainView.printLine("--------------------------------");
         return yourParty;
     }
 
@@ -100,5 +107,21 @@ public class AdventureExecuter {
 
         return adventuresList.get(advNum - 1);
     }
+
+    public ArrayList<MyCharacter> prepPhase(ArrayList<MyCharacter> party){
+        ArrayList<MyCharacter> prepPhaseCharacters = new ArrayList<>();
+        for (MyCharacter myCharacter : party) {
+            switch (myCharacter.getType()) {
+                case "Adventurer":
+                    myCharacter.setSpirit(myCharacter.getSpirit() + 1);
+                    System.out.println(myCharacter.getName() + " uses Self-Motivated. Their Spirit increases in +1.");
+                    break;
+                //TODO: Esto se puede usar para las siguientes fases
+            }
+            prepPhaseCharacters.add(myCharacter);
+        }
+        return prepPhaseCharacters;
+    }
+
 
 }

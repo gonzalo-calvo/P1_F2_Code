@@ -50,4 +50,5 @@ public class Adventure {
     public void setCharacterParty(ArrayList<MyCharacter> characterParty) {
         this.characterParty = characterParty;
     }
+
 }

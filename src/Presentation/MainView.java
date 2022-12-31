@@ -150,6 +150,8 @@ public class MainView {
         System.out.println("* Mind:     " + myCharacter.getMind());
         System.out.println("* Spirit:   " + myCharacter.getSpirit());
         System.out.println("* Class:    " + myCharacter.getType());
+        System.out.println("* Health Points:    " + myCharacter.getHealthPoints());
+        System.out.println("* Initiative:    " + myCharacter.getInitiative());
     }
 
     public void printFullMyMonster(Monster monster) {

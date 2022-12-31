@@ -9,8 +9,10 @@ public class MyCharacter {
     int mind;
     int spirit;
     String type;
+    int healthPoints;
+    int initiative;
 
-    public MyCharacter(String name, String player, int experience, int body, int mind, int spirit, String type) {
+    public MyCharacter(String name, String player, int experience, int body, int mind, int spirit, String type, int healthPoints, int initiative) {
         this.name = name;
         this.player = player;
         this.experience = experience;
@@ -18,6 +20,8 @@ public class MyCharacter {
         this.mind = mind;
         this.spirit = spirit;
         this.type = type;
+        this.healthPoints = healthPoints;
+        this.initiative = initiative;
     }
 
     public MyCharacter() {
@@ -79,7 +83,16 @@ public class MyCharacter {
         this.type = type;
     }
 
+    public int getHealthPoints() {return healthPoints;}
+    public void setHealthPoints(int healthPoints) {
+        this.healthPoints = healthPoints;
+    }
+
+    public int getInitiative() {return initiative;}
+
+    public void setInitiative(int initiative) {this.initiative = initiative;}
+
     public String myToString() {
-        return name + ", " + player + ", " + experience + ", " + body + ", " + mind + ", " + spirit + ", " + type;
+        return name + ", " + player + ", " + experience + ", " + body + ", " + mind + ", " + spirit + ", " + type + ", " + healthPoints + ", " + initiative;
     }
 }

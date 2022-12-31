@@ -31,7 +31,7 @@ public class Main {
         CharacterManager characterManager = new CharacterManager(mainView, characterDAO);
         MonsterManager monsterManager = new MonsterManager(mainView, monsterDAO);
         AdventureManager adventureManager = new AdventureManager(mainView, adventureDAO);
-        AdventureExecuter adventureExecuter = new AdventureExecuter(mainView, adventureManager, monsterDAO, characterManager, characterDAO, adventureDAO);
+        AdventureExecuter adventureExecuter = new AdventureExecuter(mainView, adventureManager);
 
 
 

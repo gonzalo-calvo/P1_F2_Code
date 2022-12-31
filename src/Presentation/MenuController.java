@@ -67,9 +67,9 @@ public class MenuController {
 
         characters = characterManager.checkNumberOfCharacters();
         if (characters) {
-            mainView.printLine("    4) Start an adventure (disabled: create at least 3 character first)");
-        } else {
             mainView.printLine("    4) Start an adventure");
+        } else {
+            mainView.printLine("    4) Start an adventure (disabled: create at least 3 character first)");
         }
 
         System.out.println("    5) Exit\n");

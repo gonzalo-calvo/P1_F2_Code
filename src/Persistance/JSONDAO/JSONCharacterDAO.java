@@ -107,6 +107,8 @@ public class JSONCharacterDAO implements CharacterDAO {
                 myCharacter.setMind(gsonObj.get("mind").getAsInt());
                 myCharacter.setSpirit(gsonObj.get("spirit").getAsInt());
                 myCharacter.setType(gsonObj.get("class").getAsString());
+                myCharacter.setHealthPoints(gsonObj.get("health points").getAsInt());
+                myCharacter.setInitiative(gsonObj.get("initiative").getAsInt());
 
                 myCharacters.add(myCharacter);
             }
@@ -155,6 +157,8 @@ public class JSONCharacterDAO implements CharacterDAO {
             obj.put("mind", myCharacter.getMind());
             obj.put("spirit", myCharacter.getSpirit());
             obj.put("class", myCharacter.getType());
+            obj.put("health points", myCharacter.getHealthPoints());
+            obj.put("initiative", myCharacter.getInitiative());
             list.add(obj);
         }
 

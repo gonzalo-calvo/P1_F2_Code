@@ -6,6 +6,7 @@ import Presentation.MainView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class CharacterManager {
@@ -55,6 +56,13 @@ public class CharacterManager {
         System.out.println("Spirit: You rolled " + diceSum + " (" + diceOne + " and " + diceTwo + ").");
 
         myCharacter.setType("Adventurer");
+
+        int healthPoints = calculateHealthPoints(myCharacter);
+        myCharacter.setHealthPoints(healthPoints);
+
+        int initiative = calculateInitiative(myCharacter);
+        myCharacter.setInitiative(initiative);
+
 
         mainView.printStats(myCharacter);
 
@@ -186,4 +194,28 @@ public class CharacterManager {
         return characterDAO.gonzaloReadCharactersFromJSON();
     }
 
+    private int calculateHealthPoints(MyCharacter myCharacter){
+        String characterClass = myCharacter.getType();
+        int bodyPoints = myCharacter.getBody();
+        int characterLevel = myCharacter.getExperience();
+        int healthPoints = 0;
+        switch (characterClass) {
+            case "Adventurer":
+                healthPoints = (10 + bodyPoints) * characterLevel;
+                break;
+        }
+        return healthPoints;
+    }
+
+    private int calculateInitiative(MyCharacter myCharacter){
+        String characterClass = myCharacter.getType();
+        int spiritPoints = myCharacter.getSpirit();
+        int initiative = 0;
+        switch (characterClass) {
+            case "Adventurer":
+                initiative = (throwDice(12) + spiritPoints);
+                break;
+        }
+        return initiative;
+    }
 }
