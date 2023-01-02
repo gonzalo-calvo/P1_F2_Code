@@ -1,8 +1,11 @@
 package Business;
 
 import Business.Entity.Adventure;
+import Business.Entity.Encounter;
+import Business.Entity.Monster;
 import Business.Entity.MyCharacter;
 import Business.Manager.AdventureManager;
+import Business.Manager.CharacterManager;
 import Presentation.MainView;
 import java.util.ArrayList;
 
@@ -47,11 +50,16 @@ public class AdventureExecuter {
             mainView.printEncounterHeather(i, chosenAdventure.getEncountersList().get(i));
             preparationStage(chosenAdventure);
         }
+        
+
+        ArrayList <MyCharacter> party = chosenAdventure.getCharacterParty();
+        
         mainView.printLine("-------------------------");
         mainView.printLine("*** Preparation stage ***");
         mainView.printLine("-------------------------");
-        ArrayList <MyCharacter> party = chosenAdventure.getCharacterParty();
         prepPhase(party);
+        //TODO pasarle el objeto encounter a la funcion para poder mostrar los monstruos en la fase de preparacion
+        chosenAdventure.sortByInitiative(party,encounter);
 
     }
 
@@ -114,14 +122,16 @@ public class AdventureExecuter {
             switch (myCharacter.getType()) {
                 case "Adventurer":
                     myCharacter.setSpirit(myCharacter.getSpirit() + 1);
-                    System.out.println(myCharacter.getName() + " uses Self-Motivated. Their Spirit increases in +1.");
+                    System.out.println("\n" + myCharacter.getName() + " uses Self-Motivated. Their Spirit increases in +1.");
+                    //TODO añadir aqui la funcion que ordena por iniciativa que esta arriba
                     break;
-                //TODO: Esto se puede usar para las siguientes fases
+                //TODO: Esto se puede usar para las siguientes fases con diferentes clases
             }
             prepPhaseCharacters.add(myCharacter);
         }
         return prepPhaseCharacters;
     }
+
 
 
 }

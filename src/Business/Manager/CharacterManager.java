@@ -4,10 +4,7 @@ import Business.Entity.MyCharacter;
 import Persistance.DAO.CharacterDAO;
 import Presentation.MainView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class CharacterManager {
 
@@ -218,4 +215,6 @@ public class CharacterManager {
         }
         return initiative;
     }
+
+
 }
